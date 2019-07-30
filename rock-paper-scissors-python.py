@@ -49,10 +49,10 @@ class CyclePlayer(Player):
     def __init__(self):
         # Initialize a CyclePlayer instance.
         Player.__init__(self)
-        self.forward = None
+        self.forward = 0
 
     def move(self):
-        move = None
+        move = 0
         if self.forward == 0:
             move = moves[0]
             self.forward = self.forward + 1
@@ -159,18 +159,18 @@ if __name__ == '__main__':
         break
 
     # Set the p2 variable to the correct player class
-    if game_Select == '1':
-        game_Select = Player()
-    elif game_Select == '2':
-        game_Select = RandomPlayer()
-    elif game_Select == '3':
-        game_Select = CyclePlayer()
-    elif game_Select == '4':
-        game_Select = ReflectPlayer()
+    if gSelect == '1':
+        gSelect = Player()
+    elif gSelect == '2':
+        gSelect = RandomPlayer()
+    elif gSelect == '3':
+        gSelect = CyclePlayer()
+    elif gSelect == '4':
+        gSelect = ReflectPlayer()
 
     # Set the length of the game
     rounds = input('Press [s] for single game or [l] for 3 rounds: ')
-    Game = Game(game_Select)
+    Game = Game(gSelect)
 
     # Validate user inputs
     while True:
