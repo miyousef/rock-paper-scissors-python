@@ -1,20 +1,80 @@
-#!/usr/bin/env python3
+import random
 
 """This program plays a game of Rock, Paper, Scissors between two Players,
-and reports both Player's scores each round."""
+and reports both Player's scores each round.
+Written by: Mohammed Yousef"""
 
 moves = ['rock', 'paper', 'scissors']
 
-"""The Player class is the parent class for all of the Players
-in this game"""
 
+class Player():
+    # Player class is the parent for all Players in this game
+    def __init__(self):  # Initialize a Player instance
+        self.score = 0
 
-class Player:
     def move(self):
-        return 'rock'
+        return 'rock'  # The starter Player class always plays 'rock'
 
-    def learn(self, my_move, their_move):
+    def learn(self, their_move):
         pass
+
+
+class RandomPlayer(Player):
+    # Random player class: chooses its move at random.
+    def move(self):
+        # Return the player's move random in string
+        index = random.randint(0, 2)
+        return moves[index]
+
+
+class ReflectPlayer(Player):
+    # Reflect player class: remembers what move the opponent played last round, and plays that move this round.
+    def __init__(self):
+        # Initialize a ReflectPlayer instance.
+        Player.__init__(self)
+        self.their_move = None
+
+    def move(self):
+        # Return last opponent move in a string.
+        if self.their_move is None:
+            return Player.move(self)
+        return self.their_move
+
+    def learn(self, their_move):
+        # Save the move made by the opponent on the last round.
+        self.their_move = their_move
+
+
+class CyclePlayer(Player):
+    # Cycle player class: remembers what move it played last round, and cycles through the different moves.
+    def __init__(self):
+        # Initialize a CyclePlayer instance.
+        Player.__init__(self)
+        self.last_move = None
+
+    def move(self):
+        # Return the player move in a string (cycle).
+        move = None
+        if self.last_move is None:
+            move = Player.move(self)
+        else:
+            index = moves.index(self.last_move) + 1
+            if index >= len(moves):
+                index = 0
+            move = moves[index]
+        self.last_move = move
+        return move
+
+
+class HumanPlayer(Player):
+    # Human player class: ask the user to input the move.
+    def move(self):
+        # Ask the move to the user and return it in a string.
+        player_move = input('Enter your move (' +
+                            ', '.join(moves) + '):\n')
+        while player_move not in moves:
+            player_move = input('Invalid move, try again\n')
+        return player_move
 
 
 def beats(one, two):
